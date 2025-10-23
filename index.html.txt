@@ -1,0 +1,344 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Rental Application</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            transition: border-color 0.15s ease-in-out;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.15s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .hidden {
+            display: none;
+        }
+        
+        /* Animation styles */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header Section -->
+    <header class="bg-blue-600 text-white py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold">HouseFinder Pro</h1>
+                <div class="flex items-center space-x-4">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f1fc4b25-3ce2-40ad-8bed-da67929ae6e4.png" alt="HouseFinder Pro logo - Blue house icon with white outline" class="h-10 w-10">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 flex flex-col items-center">
+        <!-- User Registration Form -->
+        <div id="registration-form" class="form-container bg-white fade-in">
+            <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">Find Your Dream Home</h2>
+            <form id="userForm">
+                <div class="form-group">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" id="name" class="form-input" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mobile" class="form-label">Mobile Number</label>
+                    <input type="tel" id="mobile" class="form-input" placeholder="9908951389" pattern="[0-9]{10}" required value="9908951389">
+                </div>
+                
+                <div class="form-group">
+                    <label for="employment" class="form-label">Job/Business</label>
+                    <div class="flex space-x-4">
+                        <div class="flex items-center">
+                            <input type="radio" id="job" name="employment-type" value="job" checked class="mr-2">
+                            <label for="job">Job</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="business" name="employment-type" value="business" class="mr-2">
+                            <label for="business">Business</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company" class="form-label">Company Name / Business Name</label>
+                    <input type="text" id="company" class="form-input" placeholder="Enter company or business name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="parentName" class="form-label">Parent/Guardian Name</label>
+                    <input type="text" id="parentName" class="form-input" placeholder="Enter parent/guardian name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nativePlace" class="form-label">Native Place</label>
+                    <input type="text" id="nativePlace" class="form-input" placeholder="Enter your native place" required>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <button type="submit" class="btn-primary">Submit Application</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Location Selection Form -->
+        <div id="location-form" class="form-container bg-white hidden fade-in">
+            <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">Select Your Preferred Location</h2>
+            <form id="locationForm">
+                <div class="form-group">
+                    <label for="state" class="form-label">State</label>
+                    <select id="state" class="form-input" required>
+                        <option value="" disabled selected>Select State</option>
+                        <option value="AP">Andhra Pradesh</option>
+                        <option value="TS">Telangana</option>
+                        <option value="KA">Karnataka/Bangalore</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="district" class="form-label">District</label>
+                    <select id="district" class="form-input" required>
+                        <option value="" disabled selected>Select District</option>
+                        <!-- Districts will be populated based on state selection -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="area" class="form-label">Area Name</label>
+                    <input type="text" id="area" class="form-input" placeholder="Enter area name" required>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <button type="submit" class="btn-primary">Find Houses</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- House Listings Section -->
+    <div id="house-listings" class="container mx-auto px-4 py-8 hidden">
+        <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">Available Houses</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- House 1 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d197fea6-018f-4e89-ae30-024ef7402ea0.png" alt="Modern 2BHK apartment in prime location" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold mb-2">₹15,000/month</h3>
+                    <p class="text-gray-600 mb-1">Owner: Rajesh Kumar</p>
+                    <p class="text-gray-600 mb-3">Mobile: 9908951389</p>
+                    <p class="text-sm">2BHK Apartment | Central Bangalore</p>
+                </div>
+            </div>
+
+            <!-- House 2 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4c08d679-5da0-4e5e-9e75-7ca557359fea.png" alt="Spacious 3BHK villa with garden" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold mb-2">₹25,000/month</h3>
+                    <p class="text-gray-600 mb-1">Owner: Priya Sharma</p>
+                    <p class="text-gray-600 mb-3">Mobile: 9908951389</p>
+                    <p class="text-sm">3BHK Villa | Hyderabad</p>
+                </div>
+            </div>
+
+            <!-- House 3 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8952b384-06c2-4270-87af-8ff459b36428.png" alt="Cozy 1BHK apartment near metro" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold mb-2">₹10,000/month</h3>
+                    <p class="text-gray-600 mb-1">Owner: Vikram Patel</p>
+                    <p class="text-gray-600 mb-3">Mobile: 9908951389</p>
+                    <p class="text-sm">1BHK Apartment | Visakhapatnam</p>
+                </div>
+            </div>
+            
+            <!-- House Ads -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <h4 class="text-lg font-bold mb-2">House Advertisement (1KB)</h4>
+                <p>Premium homes available in upcoming localities!</p>
+                <p class="text-sm text-gray-500 mt-2">Contact: 9908951389</p>
+                <button class="btn-primary mt-3 w-full">View Details</button>
+            </div>
+            
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h4 class="text-lg font-bold mb-2">House Advertisement (2KB)</h4>
+                <p>Affordable housing solutions for families</p>
+                <p class="text-sm text-gray-500 mt-2">Contact: 9908951389</p>
+                <button class="btn-primary mt-3 w-full">View Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2023 HouseFinder Pro. All rights reserved.</p>
+            <p class="mt-2 text-sm text-gray-400">Finding your perfect home made easy</p>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission handler
+        document.getElementById('userForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const userData = {
+                name: document.getElementById('name').value,
+                mobile: document.getElementById('mobile').value,
+                employmentType: document.querySelector('input[name="employment-type"]:checked').value,
+                company: document.getElementById('company').value,
+                parentName: document.getElementById('parentName').value,
+                nativePlace: document.getElementById('nativePlace').value
+            };
+            
+            // Validate form
+            if (!validateForm(userData)) {
+                return;
+            }
+            
+            // Store user data
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Hide registration form and show location form
+            document.getElementById('registration-form').classList.add('hidden');
+            document.getElementById('location-form').classList.remove('hidden');
+            document.getElementById('location-form').classList.add('fade-in');
+        });
+        
+        // Location form submission handler
+        document.getElementById('locationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect location data
+            const locationData = {
+                state: document.getElementById('state').value,
+                district: document.getElementById('district').value,
+                area: document.getElementById('area').value
+            };
+            
+            // Store location data
+            localStorage.setItem('locationData', JSON.stringify(locationData));
+            
+            // Show listings after form submission
+            document.getElementById('location-form').classList.add('hidden');
+            document.getElementById('house-listings').classList.remove('hidden');
+            document.getElementById('house-listings').classList.add('fade-in');
+        });
+        
+        // Form validation
+        function validateForm(data) {
+            if (!data.name || data.name.trim() === '') {
+                alert('Please enter your name');
+                return false;
+            }
+            
+            if (!data.mobile || data.mobile.length !== 10 || isNaN(data.mobile)) {
+                alert('Please enter a valid 10-digit mobile number');
+                return false;
+            }
+            
+            if (!data.company || data.company.trim() === '') {
+                alert('Please enter your company/business name');
+                return false;
+            }
+            
+            if (!data.parentName || data.parentName.trim() === '') {
+                alert('Please enter your parent/guardian name');
+                return false;
+            }
+            
+            if (!data.nativePlace || data.nativePlace.trim() === '') {
+                alert('Please enter your native place');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Populate districts based on state selection
+        document.getElementById('state').addEventListener('change', function() {
+            const state = this.value;
+            const districtSelect = document.getElementById('district');
+            
+            // Clear previous options
+            districtSelect.innerHTML = '';
+            districtSelect.innerHTML = '<option value="" disabled selected>Select District</option>';
+            
+            // Add districts based on state
+            if (state === 'AP') {
+                addDistricts([
+                    'Anantapur', 'Chittoor', 'East Godavari', 'Guntur', 
+                    'Krishna', 'Kurnool', 'Nellore', 'Prakasam', 
+                    'Srikakulam', 'Visakhapatnam', 'Vizianagaram', 'West Godavari'
+                ]);
+            } else if (state === 'TS') {
+                addDistricts([
+                    'Adilabad', 'Hyderabad', 'Karimnagar', 'Khammam', 
+                    'Mahabubnagar', 'Medak', 'Nalgonda', 'Nizamabad', 
+                    'Rangareddy', 'Warangal'
+                ]);
+            } else if (state === 'KA') {
+                addDistricts([
+                    'Bangalore Urban', 'Bangalore Rural', 'Bangalore North', 
+                    'Bangalore South', 'Bangalore Central'
+                ]);
+            }
+        });
+        
+        function addDistricts(districts) {
+            const districtSelect = document.getElementById('district');
+            
+            districts.forEach(district => {
+                const option = document.createElement('option');
+                option.value = district;
+                option.textContent = district;
+                districtSelect.appendChild(option);
+            });
+        }
+    </script>
+</body>
+</html>
+```
